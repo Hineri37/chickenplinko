@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Play Chicken Plinko - Winnings and Jackpot</title>
+<meta name="description" content="Play Chicken Plinko: a unique Plinko game with eggs, bonuses, and free spins. Try the Plinko mechanics and win big!" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.ico">
+<meta name="yandex-verification" content="7b80b35f5447e8c8" />
+<meta name="msapplication-TileImage" content="https://i.ibb.co/fd9jvC38/chicken-plinko.jpg">
+<meta property="og:title" content="Play Chicken Plinko - Winnings and Jackpot" />
+<meta property="og:description" content="Play Chicken Plinko: a unique Plinko game with eggs, bonuses, and free spins. Try the Plinko mechanics and win big!" />
+<meta property="og:url" content="https://iceFishing-igra.vercel.app/" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://i.ibb.co/fd9jvC38/chicken-plinko.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Play Chicken Plinko - Winnings and Jackpot" />
+<meta name="twitter:description" content="Play Chicken Plinko: a unique Plinko game with eggs, bonuses, and free spins. Try the Plinko mechanics and win big!" />
+<meta name="twitter:image" content="https://i.ibb.co/fd9jvC38/chicken-plinko.jpg" />
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700;900&family=Noto+Sans+Mono:wght@300;400;500;600&display=swap');
+  :root {
+    --ink: #ffffff;
+    --muted: #c2c2d6;
+    --sub: #a0a0c0;
+    --accent: #ff1a7e;
+    --accent-dark: #cc1364;
+    --accent-light: #ff5aa7;
+    --secondary: #5ae4ff;
+    --glass: rgba(30, 10, 30, 0.3);
+    --glass-strong: rgba(40, 15, 40, 0.45);
+    --gborder: rgba(255, 255, 255, 0.12);
+    --shadow-1: 0 20px 60px rgba(13, 3, 24, 0.8);
+    --shadow-2: 0 10px 30px rgba(13, 3, 24, 0.6);
+    --container: 1200px;
+    --radius: 24px;
+    --bg-main: #0d0318;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html, body {
+    height: 100%;
+    font-family: 'Noto Sans Mono', monospace;
+    color: var(--ink);
+    background: var(--bg-main);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body::before, body::after {
+    content: "";
+    position: fixed;
+    inset: -20vmax;
+    z-index: -2;
+    pointer-events: none;
+  }
+  body::before {
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255, 26, 126, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(90, 228, 255, 0.10) 0%, transparent 40%),
+      radial-gradient(circle at 50% 120%, rgba(13, 3, 24, 0.7) 0%, transparent 60%),
+      linear-gradient(180deg, #0d0318, #150825 100%);
+    animation: floatBg 20s infinite alternate ease-in-out;
+  }
+  body::after {
+    z-index: -1;
+    opacity: 0.25;
+    mix-blend-mode: overlay;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 120 120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.05"/></svg>');
+    background-size: 160px 160px;
+    animation: driftNoise 30s infinite linear;
+  }
+  @keyframes floatBg {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-10px, 5px); }
+    50% { transform: translate(8px, -5px); }
+    75% { transform: translate(-5px, 8px); }
+  }
+  @keyframes driftNoise {
+    0% { background-position: 0 0; }
+    100% { background-position: 80px 80px; }
+  }
+  .container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .logo,
+  .title,
+  .h2,
+  .article-title,
+  .symbol-name,
+  .pros-cons h3,
+  summary {
+    font-family: 'Fredoka', sans-serif !important;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13, 3, 24, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gborder);
+    animation: fadeInDown 0.6s ease-out;
+  }
+  .topbar__in {
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-weight: 900;
+    font-size: 28px;
+    background: linear-gradient(90deg, var(--accent), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: pulseGlow 3s infinite alternate ease-in-out;
+  }
+  @keyframes pulseGlow {
+    0% { text-shadow: 0 0 10px rgba(255, 26, 126, 0.4); }
+    100% { text-shadow: 0 0 20px rgba(255, 26, 126, 0.8), 0 0 30px rgba(90, 228, 255, 0.6); }
+  }
+  .nav-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s;
+    font-family: 'Noto Sans Mono', monospace;
+  }
+  .nav-link:hover { color: var(--secondary); }
+  .nav-link.active { color: var(--secondary); }
+
+  .btn {
+    --py: 16px;
+    --px: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: var(--py) var(--px);
+    min-width: 220px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    position: relative;
+    isolation: isolate;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+    font-family: 'Noto Sans Mono', monospace;
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: translateX(-100%);
+    z-index: 0;
+    transition: transform 0.6s ease;
+  }
+  .btn span, .btn .btn-icon { position: relative; z-index: 1; }
+  .btn-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
+  .btn-glass {
+    color: var(--ink);
+    background: var(--glass-strong);
+    border: 1px solid var(--gborder);
+    box-shadow: 0 8px 24px rgba(13, 3, 24, 0.4);
+  }
+  .btn-glass:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(13, 3, 24, 0.5), 0 0 20px rgba(90, 228, 255, 0.3);
+  }
+  .btn-accent {
+    color: white;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(204, 19, 100, 0.4);
+  }
+  .btn-accent:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(204, 19, 100, 0.6), 0 0 25px rgba(255, 26, 126, 0.6);
+  }
+  .btn-accent:hover::before,
+  .btn-glass:hover::before {
+    transform: translateX(100%);
+  }
+
+  .hero { padding: 90px 0 40px; text-align: center; }
+  .hero__center { display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 800px; margin: 0 auto; }
+  .title {
+    font-weight: 900;
+    font-size: clamp(36px, 8vw, 90px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, var(--accent), var(--secondary), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 8px 30px rgba(255, 26, 126, 0.4);
+    word-break: break-word;
+    overflow-wrap: break-word;
+    animation: fadeInUp 1s ease-out both;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 20px;
+    line-height: 1.6;
+    max-width: 680px;
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeIn 1.2s ease-out 0.2s both;
+    font-family: 'Noto Sans Mono', monospace;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .section {
+    padding: 40px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSection 0.8s ease-out forwards;
+  }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+  .section:nth-child(5) { animation-delay: 0.4s; }
+  .section:nth-child(6) { animation-delay: 0.5s; }
+  .section:nth-child(7) { animation-delay: 0.6s; }
+  .section:nth-child(8) { animation-delay: 0.7s; }
+  .section:nth-child(9) { animation-delay: 0.8s; }
+  .section:nth-child(10) { animation-delay: 0.9s; }
+  .section:nth-child(11) { animation-delay: 1.0s; }
+  @keyframes fadeInSection {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; flex-wrap: wrap; }
+  .h2 {
+    font-weight: 800;
+    font-size: clamp(28px, 6vw, 64px);
+    background: linear-gradient(90deg, var(--accent), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    animation: shimmerText 5.0s infinite linear;
+    background-size: 200% 100%;
+  }
+  @keyframes shimmerText {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .about-slot { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+  .slot-image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    animation: floatImage 6s ease-in-out infinite alternate;
+  }
+  @keyframes floatImage {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .slot-text {
+    line-height: 1.7;
+    color: var(--muted);
+    font-size: 17px;
+    font-family: 'Noto Sans Mono', monospace;
+  }
+  .slot-text p {
+    margin-bottom: 18px;
+    opacity: 0;
+    animation: fadeInText 0.6s ease-out forwards;
+  }
+  .slot-text p:nth-child(1) { animation-delay: 0.1s; }
+  .slot-text p:nth-child(2) { animation-delay: 0.2s; }
+  .slot-text p:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes fadeInText { to { opacity: 1; } }
+
+  .casino-list { display: grid; gap: 18px; }
+  .casino-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 24px;
+    background: var(--glass);
+    border: 1px solid var(--gborder);
+    border-radius: 18px;
+    backdrop-filter: blur(16px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(15px);
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  .casino-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(13, 3, 24, 0.4);
+  }
+  .casino-list .casino-item:nth-child(n) { animation-delay: calc(0.1s * var(--n, 1)); }
+
+  .casino-logo {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    border-radius: 12px;
+    background: var(--glass-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--accent);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .casino-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .casino-info { flex: 1; }
+  .casino-name { font-weight: 800; font-size: 18px; margin-bottom: 4px; color: var(--ink); }
+  .casino-name a { color: inherit; text-decoration: none; transition: color 0.2s; }
+  .casino-name a:hover { color: var(--secondary); }
+  .casino-bonus { color: var(--muted); font-size: 15px; margin-bottom: 12px; }
+  .casino-play-btn {
+    font-size: 15px;
+    padding: 8px 20px;
+    min-width: 120px;
+    border-radius: 999px;
+    background: var(--glass-strong);
+    color: var(--ink);
+    border: 1px solid var(--gborder);
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    text-align: center;
+    white-space: nowrap;
+    font-family: 'Noto Sans Mono', monospace;
+  }
+  .casino-play-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(13,3,24,0.3), 0 0 15px rgba(255,26,126,0.3);
+    background-color: var(--accent);
+    color: white;
+  }
+
+  .article-card {
+    background: var(--glass);
+    border: 1px solid var(--gborder);
+    border-radius: var(--radius);
+    padding: 32px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-2);
+    line-height: 1.7;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+    font-family: 'Noto Sans Mono', monospace;
+  }
+  .article-title {
+    font-weight: 800;
+    font-size: clamp(24px, 5vw, 27px);
+    margin-bottom: 24px;
+    color: var(--secondary);
+    padding: 0 10px;
+  }
+  .article-card p {
+    margin-bottom: 20px;
+    color: var(--muted);
+  }
+  .article-card p:last-child { margin-bottom: 0; }
+
+  .pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .pros-cons h3 {
+    font-size: 22px;
+    margin-bottom: 16px;
+    color: var(--secondary);
+  }
+  .pros-cons ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .pros-cons li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gborder);
+    color: var(--muted);
+    display: flex;
+    gap: 10px;
+  }
+  .pros-cons li::before { content: "✓"; color: #6eceda; font-weight: bold; }
+  .cons li::before { content: "✗"; color: #ff6b9d; }
+
+  .specs {
+    width: 100%;
+    border-radius: 22px;
+    background: var(--glass-strong);
+    backdrop-filter: blur(22px);
+    border: 1px solid var(--gborder);
+    box-shadow: 0 24px 60px rgba(13, 3, 24, 0.5);
+    overflow: hidden;
+  }
+  .specs table { width: 100%; border-collapse: collapse; }
+  .specs th, .specs td {
+    padding: 18px 24px;
+    text-align: left;
+    border-bottom: 1px solid var(--gborder);
+  }
+  .specs thead th {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    background: rgba(0,0,0,0.2);
+  }
+  .specs tbody tr:last-child td { border-bottom: none; }
+  .specs .k { color: var(--sub); font-weight: 700; width: 45%; }
+
+  .chip {
+    display: inline-block;
+    padding: 0.42em 0.78em;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.05));
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+    font-size: 0.94em;
+    color: var(--ink);
+    font-family: 'Noto Sans Mono', monospace;
+  }
+
+  .screenshots-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .screenshot {
+    border-radius: 12px;
+    aspect-ratio: 16/9;
+    min-height: 160px;
+    background: var(--glass-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(13,3,24,0.4);
+    overflow: hidden;
+    flex: 1 1 calc(33.333% - 14px);
+    max-width: calc(33.333% - 14px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  .screenshot:nth-child(1) { animation-delay: 0.1s; }
+  .screenshot:nth-child(2) { animation-delay: 0.15s; }
+  .screenshot:nth-child(3) { animation-delay: 0.2s; }
+  .screenshot img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .screenshot img:hover { transform: scale(1.02); }
+  @media (max-width: 768px) {
+    .screenshot {
+      flex: 1 1 100%;
+      max-width: 100%;
+      min-height: 200px;
+    }
+  }
+
+  details {
+    background: var(--glass);
+    border: 1px solid var(--gborder);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 14px;
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  summary {
+    font-weight: 700;
+    font-size: 19px;
+    cursor: pointer;
+    outline: none;
+    list-style: none;
+    color: var(--secondary);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before {
+    content: "+ ";
+    color: var(--accent);
+    font-weight: 900;
+    transition: transform 0.2s ease;
+  }
+  details[open] summary::before { content: "− "; }
+  details p {
+    color: var(--muted);
+    margin-top: 14px;
+    line-height: 1.7;
+    font-size: 16px;
+    font-family: 'Noto Sans Mono', monospace;
+  }
+
+  footer {
+    padding: 60px 0 40px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.5s both;
+  }
+  .foot {
+    background: var(--glass);
+    border: 1px solid var(--gborder);
+    border-radius: 16px;
+    text-align: center;
+    padding: 24px;
+    font-size: 15px;
+    color: var(--sub);
+    backdrop-filter: blur(16px);
+    font-family: 'Noto Sans Mono', monospace;
+  }
+
+  .payment-methods {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .payment-logo {
+    width: 56px;
+    height: 32px;
+    min-width: 56px;
+    min-height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-weight: bold;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  .payment-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .payment-methods .payment-logo:nth-child(n) { animation-delay: calc(0.1s * var(--n, 1)); }
+
+  @media (max-width: 900px) {
+    .about-slot, .pros-cons { grid-template-columns: 1fr; }
+    .casino-item { flex-direction: column; text-align: center; }
+    .casino-play-btn { margin-top: 12px; width: 100%; max-width: 200px; }
+    .specs thead { display: none; }
+    .specs tbody {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+    .specs tr {
+      display: grid;
+      grid-template-columns: 1fr;
+      background: var(--glass);
+      border: 1px solid var(--gborder);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .specs td.k { font-weight: 800; color: var(--ink); }
+    .title, .h2 { padding: 0 10px; }
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .hero-actions .btn {
+      min-width: 100%;
+      max-width: 300px;
+      width: 100%;
+    }
+  }
+  @media (max-width: 600px) {
+    .article-title { font-size: clamp(20px, 6vw, 24px); padding: 0 8px; }
+  }
+
+.lang-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-toggle {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: 'Noto Sans Mono', monospace;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: color 0.2s, background 0.2s;
+  outline: none;
+}
+
+.lang-toggle:hover {
+  color: var(--secondary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.lang-flag {
+  display: inline-block;
+  width: 20px;
+  height: 14px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.lang-flag--ru {
+  background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='3' height='2' viewBox='0 0 3 2'><rect width='3' height='0.6667' y='0' fill='%23ffffff'/><rect width='3' height='0.6667' y='0.6667' fill='%230039a6'/><rect width='3' height='0.6667' y='1.3333' fill='%23d52b1e'/></svg>");
+}
+
+.lang-flag--en {
+  background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'><rect width='60' height='30' fill='%23012169'/><path d='M0,0 L60,30 M60,0 L0,30' stroke='%23ffffff' stroke-width='6'/><path d='M0,15 L60,15 M30,0 L30,30' stroke='%23ffffff' stroke-width='4'/><path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='2'/><path d='M0,15 L60,15 M30,0 L30,30' stroke='%23c8102e' stroke-width='2'/></svg>");
+}
+
+.lang-list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin: 0;
+  padding: 12px 8px;
+  background: var(--glass-strong);
+  border: 1px solid var(--gborder);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(13, 3, 24, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  list-style: none;
+  min-width: 160px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0);
+  transition: all 0.25s cubic-bezier(0.33, 0, 0.66, 0.33);
+  pointer-events: none;
+}
+
+.lang-dropdown:hover .lang-list,
+.lang-dropdown:focus-within .lang-list {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.lang-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background 0.2s, color 0.2s;
+  font-size: 14px;
+  font-family: 'Noto Sans Mono', monospace;
+  white-space: nowrap;
+}
+
+.lang-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+}
+
+.lang-item.active,
+.lang-item.active:hover {
+  background: rgba(255, 26, 126, 0.2);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .topbar__controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+.topbar .btn {
+    min-width: unset;
+    width: auto;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+ .topbar .btn .btn-icon {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar__controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+.lang-list {
+  margin: 0;
+  padding: 12px 8px;
+
+}
+
+.lang-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-toggle {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: 'Noto Sans Mono', monospace;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: color 0.2s, background 0.2s;
+  outline: none;
+}
+
+.lang-toggle:hover {
+  color: var(--secondary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.lang-flag {
+  display: inline-block;
+  width: 20px;
+  height: 14px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.lang-list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin: 8px 0 0;
+  padding: 8px;
+  background: var(--glass-strong);
+  border: 1px solid var(--gborder);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(13, 3, 24, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  list-style: none;
+  min-width: 160px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: all 0.25s cubic-bezier(0.33, 0, 0.66, 0.33);
+  pointer-events: none;
+}
+
+.lang-dropdown:hover .lang-list,
+.lang-dropdown:focus-within .lang-list {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.lang-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background 0.2s, color 0.2s;
+  font-size: 14px;
+  font-family: 'Noto Sans Mono', monospace;
+  white-space: nowrap;
+}
+
+.lang-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+}
+
+@media (max-width: 768px) {
+  .topbar__controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .lang-list {
+    min-width: 140px;
+    right: 0;
+    left: auto;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container topbar__in">
+    <div class="logo">Chicken Plinko</div>
+    <div class="topbar__controls">
+      <div class="lang-dropdown">
+        <button class="lang-toggle" aria-haspopup="true" aria-expanded="false">
+
+          <span class="lang-flag lang-flag--en"></span>
+          <span class="lang-code">EN</span>
+        </button>
+        <ul class="lang-list" role="menu">
+  <li><a href="/ru/" class="lang-item"><span class="lang-flag lang-flag--ru"></span> Русский</a></li>
+  <li><a href="/en/" class="lang-item active"><span class="lang-flag lang-flag--en"></span> English</a></li>
+</ul>
+      </div>
+      <a href="https://beef-way-two.com/c2feea520" rel="nofollow sponsored" class="btn btn-accent nav-play-btn">
+        <span class="btn-icon">▶</span>
+        Play
+      </a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container hero__center">
+    <h1 class="title">Chicken Plinko<br>play now</h1>
+    <div class="hero-actions">
+      <a href="https://beef-way-two.com/c2feea520" rel="nofollow sponsored" class="btn btn-accent">
+        <span class="btn-icon">▶</span>
+        Play
+      </a>
+      <a href="https://beef-way-two.com/c2feea520" rel="nofollow sponsored" class="btn btn-glass">
+        <span class="btn-icon">🎁</span>
+        Get Bonus
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="h2">About Chicken Plinko</h2>
+    </div>
+    <div class="about-slot">
+      <div class="slot-image"><img src="images/chicken-plinko.jpg" alt="Ice Fishing" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="slot-text">
+     <p>Chicken Plinko is an innovative interpretation of the iconic falling-ball mechanic that has captured the hearts of millions of players around the world. The game combines classic gameplay with modern technologies powered by the Tap Games&trade; platform. It&rsquo;s not just entertainment &mdash; it's a full-fledged experience where every spin turns into an exciting adventure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="h2">Best Casinos for Chicken Plinko</h2>
+    </div>
+    <div class="casino-list">
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/beef.png" alt="BEEF"></div>
+        <div class="casino-info">
+          <div class="casino-name">🥇<strong><a href="https://beef-way-two.com/c2feea520" rel="nofollow sponsored">BEEF</a></strong></div>
+          <div class="casino-bonus">🎁250% + 600 FS</div>
+        </div>
+        <a href="https://beef-way-two.com/c2feea520" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/martin.png" alt="MARTIN"></div>
+        <div class="casino-info">
+          <div class="casino-name">🥈<strong><a href="https://martin-way-six.com/c0b5e0f74" rel="nofollow sponsored">MARTIN</a></strong></div>
+          <div class="casino-bonus">🎁To 225% + 600 FS</div>
+        </div>
+        <a href="https://martin-way-six.com/c0b5e0f74" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/1go.png" alt="1GO"></div>
+        <div class="casino-info">
+          <div class="casino-name">🥉<strong><a href="https://1go-blrs10.com/c91b15f9d" rel="nofollow sponsored">1GO</a></strong></div>
+          <div class="casino-bonus">🎁150%</div>
+        </div>
+        <a href="https://1go-blrs10.com/c91b15f9d" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/dragon money.png" alt="DRAGON MONEY"></div>
+        <div class="casino-info">
+          <div class="casino-name">4️⃣<strong><a href="https://dgr.so/fpkjjxlyk" rel="nofollow sponsored">DRAGON MONEY</a></strong></div>
+          <div class="casino-bonus">🎁5%</div>
+        </div>
+        <a href="https://dgr.so/fbhvdczv3" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/7k.png" alt="7K"></div>
+        <div class="casino-info">
+          <div class="casino-name">5️⃣<strong><a href="https://promooffer7000.com/l/68ec9ead437dfdd25602da52" rel="nofollow sponsored">7K</a></strong></div>
+          <div class="casino-bonus">🎁3000$ + 500 FS</div>
+        </div>
+        <a href="https://promooffer7000.com/l/68ec9ead437dfdd25602da52" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/arkada.png" alt="ARKADA"></div>
+        <div class="casino-info">
+          <div class="casino-name">6️⃣<strong><a href="https://grid-cyberlane.com/s6ffd8269" rel="nofollow sponsored">ARKADA</a></strong></div>
+          <div class="casino-bonus">🎁50%</div>
+        </div>
+        <a href="https://grid-cyberlane.com/s6ffd8269" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/r7.png" alt="R7"></div>
+        <div class="casino-info">
+          <div class="casino-name">7️⃣<strong><a href="https://sigreaciry.com/s69ebe2e6" rel="nofollow sponsored">R7</a></strong></div>
+          <div class="casino-bonus">🎁75% + 60 FS</div>
+        </div>
+        <a href="https://sigreaciry.com/s69ebe2e6" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/gama.png" alt="GAMA"></div>
+        <div class="casino-info">
+          <div class="casino-name">8️⃣<strong><a href="https://preesiader.com/scc925a36" rel="nofollow sponsored">GAMA</a></strong></div>
+          <div class="casino-bonus">🎁250 FS</div>
+        </div>
+        <a href="https://preesiader.com/scc925a36" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/kent.png" alt="KENT"></div>
+        <div class="casino-info">
+          <div class="casino-name">9️⃣<strong><a href="https://mealmenalc.com/sc48b011f" rel="nofollow sponsored">KENT</a></strong></div>
+          <div class="casino-bonus">🎁100% + 100 FS</div>
+        </div>
+        <a href="https://mealmenalc.com/sc48b011f" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+      <div class="casino-item">
+        <div class="casino-logo"><img src="images/brands/kometa.png" alt="KOMETA"></div>
+        <div class="casino-info">
+          <div class="casino-name">🔟<strong><a href="https://tropical-path.com/s1f3a3076" rel="nofollow sponsored">KOMETA</a></strong></div>
+          <div class="casino-bonus">🎁To 150 FS</div>
+        </div>
+        <a href="https://tropical-path.com/s1f3a3076" rel="nofollow sponsored" class="casino-play-btn">Play</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="h2">What Is Chicken Plinko and Why It’s the Main Trend in Online Casinos</h2>
+    </div>
+    <div class="article-card">
+     <p>The concept of Chicken Plinko is simple yet brilliant: a golden chicken at the top of the board drops eggs into a field filled with obstacles. Each egg falls down, colliding with pegs, and eventually lands on one of the multipliers at the bottom.</p>
+<p>However, unlike traditional Plinko, every spin in Chicken Plinko is accompanied by vibrant animation, dynamic effects, and interactive elements that keep players constantly engaged.</p>
+<h2>Game Mechanics: How the Egg-Dropping System Works</h2>
+<p>The core system of Chicken Plinko is based on a simple principle: one bet equals one egg. This means that for every spin, you choose your bet size, and the chicken will drop the corresponding number of eggs.</p>
+<p>The unique feature of the game is that the falling process is not just a passive moment but a full-fledged spectacle with continuous interaction.</p>
+<p>Thanks to the Tap Games™ platform, the game offers a constant flow of micro-events. Side winds alter the fall trajectory, pushing the eggs up or down. Shock absorbers (bumpers) create additional value by increasing the payout. The bomb effect acts like a miniature vortex, pulling nearby objects together and granting a collective multiplier to all eggs caught within its zone.</p>
+<p>Each spin in Chicken Plinko is accompanied by visual and sound effects that create the atmosphere of a live casino. The screen is never static — even during the fall of a single egg, constant events and reactions occur, keeping the player’s attention focused.</p>
+<h2>Types of Eggs: Variety and Tactical Features</h2>
+<p>The game includes several types of eggs, each with its own characteristics:</p>
+<ul>
+<li>Standard white eggs form the foundation of gameplay and define the basic mechanics. They fall normally and land on multipliers, ensuring steady wins.</li>
+<li>Golden eggs raise the stakes and add tension. Each golden egg has the potential to grant higher payouts than standard ones. Their appearance triggers excitement among players.</li>
+<li>Blue eggs unlock special gameplay moments. These objects are often tied to bonus features and triggers for special events.</li>
+</ul>
+<p>The most interesting feature is that some eggs can break during the fall. When this occurs, a Battery appears that immediately launches the Wheel of Fortune, or a Thunder Symbol that activates the Jackpot Game. This transforms the process from passive observation into an interactive adventure where the player influences the outcome.</p>
+<h2>Bonus Features: Maximize Your Winning Potential</h2>
+<p>The game contains an arsenal of special features that significantly increase potential and gameplay variety.</p>
+<ul>
+<li>The Wheel of Fortune is one of the key bonus options. When activated, it can reward players with multipliers, additional jackpots, or free spins. Each turn brings excitement and unpredictability.</li>
+<li>Free Spins are triggered when the chicken lays a glowing egg. This egg turns into dozens of small blue eggs, each falling faster than usual, hitting bumpers more often, and accelerating the pace of winnings. A true celebration for both the eyes and the wallet.</li>
+<li>The Jackpot Game offers an element of choice, where you select a door with a guaranteed prize. This adds a strategic component and gives players a sense of control.</li>
+<li>The Bonus Buy Option allows impatient players to instantly access special modes. If you're eager or want maximum adrenaline, you can skip the standard gameplay and jump straight into special events.</li>
+</ul>
+<h2>Dynamics and Visual Style: Movement and Spectacle</h2>
+<p>The game is developed based on the Tap Games™ philosophy, where rhythm and visuals are top priorities. This means every element — from falling objects to bonus activations — features smooth dynamic animation and vibrant effects.</p>
+<ul>
+<li>Side winds are not just visual decor. They physically change the trajectory of the fall, creating the feeling that the board is alive and responsive.</li>
+<li>Bumpers generate extra value, making each collision a triumphant moment. The bomb effect acts as a center of gravity for nearby objects, creating chain reactions and multiplier wins.</li>
+</ul>
+<p>This constant motion ensures that the screen never stays still. Even with a single falling object, many micro-events occur, creating a sense of ongoing movement and change. This keeps attention and creates addictive gameplay that players want to repeat.</p>
+<h2>Social Experience and Competition</h2>
+<p>Chicken Road is not just a game — it’s a social experience. The festive design, playful energy, and finely tuned mechanics create an atmosphere that motivates players to share their moments with friends. Every big win and every activated bonus is something worth showing off.</p>
+<p>The Tap Games™ platform is originally designed with social features in mind. This means players can compete with friends, support each other, and enjoy shared moments of triumph. Thus, the online casino becomes a place for connection and entertainment.</p>
+<h2>Why Players Around the World Choose This Game</h2>
+<p>Chicken Plinko has won the hearts of millions thanks to the perfect combination of several factors:</p>
+<ul>
+<li>First, Chicken Plinko offers simple and intuitive mechanics that are easy for beginners but familiar for experienced players.</li>
+<li>Second, Chicken Plinko delivers constant dynamic changes, where every spin can be completely unpredictable thanks to different types of objects and bonus activations.</li>
+<li>Third, Chicken Plinko offers real potential for significant wins. A combination of multipliers, bonus features, and chain reactions can result in exponential payouts.</li>
+<li>Fourth, Chicken Plinko is pure entertainment. Every spin brings bright animations, sound effects, and the feeling of being part of a live show.</li>
+</ul>
+<h2>Strategy: How to Increase Your Chances of Success</h2>
+<p>Although the game is mostly based on luck, several strategic approaches can help players maximize their potential.</p>
+<ol>
+<li>Bankroll management is the number one principle. Determine your budget and split it into multiple gaming sessions. Don’t put everything into a single spin, especially if you're new. The system allows you to adjust the bet size, so start small and gradually increase it.</li>
+<li>Study the paytable before starting. Understanding which multipliers are available, how they are distributed, and which objects have the highest potential gives you clearer expectations.</li>
+<li>Use the Bonus Buy option strategically. If you have enough funds and are ready for a big win, this option can quickly unlock bonus rounds. However, remember that it requires higher bets.</li>
+<li>Keep your emotions in check. The game is designed to trigger adrenaline and excitement. Make sure you play responsibly and don’t let emotions control your decisions.</li>
+</ol>
+<h2>Conclusion: A New Standard in Online Entertainment</h2>
+<p>Chicken Plinko represents the perfect reimagining of classic mechanics for a new generation of players. It’s not just another casino game — it is a complete experience that combines simplicity, depth, dynamics, and social interaction. Thanks to the Tap Games™ platform and its innovative design, it sets a new standard for modern online entertainment.</p>
+<p>Every spin is an invitation to experience something new, feel the thrill of surprise, and embrace the adrenaline. The golden chicken, blue eggs, side winds, and chain reactions create an atmosphere that captivates and holds attention. This is a game that gives you control without taking away the joy of uncertainty. Its mechanics have been reinvented for the modern world, and it's here to stay.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="h2">Pros and Cons</h2>
+    </div>
+    <div class="pros-cons">
+      <div class="pros">
+        <h3>Pros</h3>
+        <ul>
+          <li>Simple and intuitive mechanics</li>
+          <li>High-quality dynamics and visual style</li>
+          <li>Variety of egg types</li>
+          <li>Rich set of bonus features</li>
+          <li>Real potential for big wins</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <h3>Cons</h3>
+        <ul>
+          <li>Dependent on luck</li>
+          <li>Requires bankroll management skills</li>
+          <li>The Bonus Buy feature may be risky</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="h2">Specifications</h2>
+    </div>
+    <div class="specs">
+      <table>
+        <thead><tr><th class="k">Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Developer</td><td>Onlyplay</td></tr>
+          <tr><td class="k">Volatility</td><td>Medium</td></tr>
+          <tr><td class="k">Type</td><td>Fast Game</td></tr>
+          <tr><td class="k">Release Date</td><td><span class="chip">27.11.2025</span></td></tr>
+          <tr><td class="k">Max Win</td><td><span class="chip">×1000</span></td></tr>
+          <tr><td class="k">RTP</td><td><span class="chip">96.14%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="h2">Screenshots</h2>
+    </div>
+    <div class="screenshots-container">
+      <div class="screenshot" onclick="enlargeImage(this)">
+        <img src="images/screenshots/screen-1.png" alt="screen-1">
+      </div>
+      <div class="screenshot" onclick="enlargeImage(this)">
+        <img src="images/screenshots/screen-2.png" alt="screen-2">
+      </div>
+      <div class="screenshot" onclick="enlargeImage(this)">
+        <img src="images/screenshots/screen-3.png" alt="screen-3">
+      </div>
+      <div class="screenshot" onclick="enlargeImage(this)">
+        <img src="images/screenshots/screen-4.png" alt="screen-4">
+      </div>
+      <div class="screenshot" onclick="enlargeImage(this)">
+        <img src="images/screenshots/screen-5.png" alt="screen-5">
+      </div>
+      <div class="screenshot" onclick="enlargeImage(this)">
+        <img src="images/screenshots/screen-6.png" alt="screen-6">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="h2">FAQ</h2>
+    </div>
+    <div style="display:grid;gap:16px;max-width:var(--container);margin:0 auto;">
+     <details><summary>How does the game mechanic work?</summary>
+<p>The chicken drops eggs onto a board filled with obstacles. The eggs fall down, bounce off pegs, and land on multipliers. Side winds change their trajectory, bumpers increase the payout, and the bomb effect creates chain reactions.</p>
+</details>
+
+<details><summary>What types of eggs are there?</summary>
+<p>White eggs — basic winnings. Golden eggs — higher payouts. Blue eggs — bonus features. Some eggs break and trigger the Wheel of Fortune or the Jackpot Game.</p>
+</details>
+
+<details><summary>What bonus features are available?</summary>
+<p>The Wheel of Fortune provides multipliers and jackpots. Free Spins activate many blue eggs. The Jackpot Game offers a choice of a door with a guaranteed prize. Bonus Buy gives direct access to bonuses for a stake.</p>
+</details>
+
+<details><summary>How to play responsibly?</summary>
+<p>Manage your bankroll — divide your budget into sessions. Start with small bets. Study the paytable. Don’t let emotions influence your decisions.</p>
+</details>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot">
+      <p>Play responsibly. 18+</p>
+      <p>© 2025 Chicken Plinko.</p>
+      <div class="payment-methods">
+        <div class="payment-logo"><img src="images/payments/visa.svg" alt="Visa"></div>
+        <div class="payment-logo"><img src="images/payments/mastercard.svg" alt="Mastercard"></div>
+        <div class="payment-logo"><img src="images/payments/mir.svg" alt="Mir"></div>
+        <div class="payment-logo"><img src="images/payments/SBP.svg" alt="SBP"></div>
+        <div class="payment-logo"><img src="images/payments/piastrix.svg" alt="Piastrix"></div>
+        <div class="payment-logo"><img src="images/payments/USDT.svg" alt="USDT"></div>
+        <div class="payment-logo"><img src="images/payments/USDC.svg" alt="USDC"></div>
+        <div class="payment-logo"><img src="images/payments/BTC.svg" alt="BTC"></div>
+        <div class="payment-logo"><img src="images/payments/TON.svg" alt="TON"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(13,3,24,0.9);z-index:9999;justify-content:center;align-items:center;cursor:zoom-out;" onclick="closeModal()">
+  <img id="modal-img" style="max-width:95vw;max-height:95vh;width:auto;height:auto;object-fit:contain;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+</div>
+
+<script>
+  function enlargeImage(container) {
+    const img = container.querySelector('img');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    modalImg.src = img.src;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+
+</body>
+</html>
