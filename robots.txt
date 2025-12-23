@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://chickenplinko.vercel.app/sitemap.xml
